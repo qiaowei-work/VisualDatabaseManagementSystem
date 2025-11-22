@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统监控 - 可视化运维系统</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+    <link rel="stylesheet" th:href="@{/css/monitoring.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- 复用主页面侧边栏 -->
+    <div th:replace="dashboard :: sidebar"></div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>系统监控</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <span class="welcome-text">欢迎回来，<span id="headerUsername">管理员</span></span>
+                    <button class="btn btn-primary" id="refreshBtn">刷新</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 监控内容区域 -->
+        <div class="content-area">
+            <!-- 实例选择和监控控制 -->
+            <div class="card control-panel bg-white">
+                <div class="card-body">
+                    <div class="control-row">
+                        <select id="instanceSelect" class="form-control" style="max-width: 300px; width: 100%;">
+                                <option value="">请选择数据库实例...</option>
+                            </select>
+                        <!-- <button class="btn btn-primary" id="refreshDashboardBtn">刷新仪表盘</button> -->
+<!--                            <button class="btn btn-outline" id="addInstanceBtn">添加实例</button>-->
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafana嵌入区域 -->
+            <div class="card grafana-section">
+                <div class="card-header">
+                    <h3 class="card-title" id="grafanaTitle">Grafana</h3>
+                    <div class="grafana-controls">
+                        <button class="btn btn-sm btn-outline-light" id="fullscreenBtn" data-tooltip="进入全屏模式" title="全屏">
+                            <i class="fas fa-expand"></i> 全屏
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" id="refreshDashboardBtn" data-tooltip="刷新当前仪表盘" title="刷新">
+                            <i class="fas fa-sync-alt"></i> 刷新
+                        </button>
+                        <!-- <button class="btn btn-sm btn-outline-light" id="openInGrafanaBtn" data-tooltip="在新标签页中打开Grafana" title="在Grafana中打开">
+                            <i class="fas fa-external-link-alt"></i> 在Grafana中打开
+                        </button> -->
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="grafanaContainer" class="grafana-container">
+                        <div class="grafana-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">📊</div>
+                                <h4>选择监控实例和仪表盘</h4>
+                                <p>从上方选择数据库实例和对应的Grafana仪表盘来查看监控数据</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" th:href="@{/css/grafana-embed.css}">
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/grafana-monitoring.js}"></script>
+</body>
+</html>

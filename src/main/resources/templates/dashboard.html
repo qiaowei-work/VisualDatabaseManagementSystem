@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可视化运维系统 - 控制台</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- 侧边栏 -->
+    <div class="sidebar" th:fragment="sidebar">
+        <div class="sidebar-header">
+            <img th:src="@{/images/logo.png}" alt="系统Logo" class="logo">
+            <h2>数据库运维系统</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item active">
+                    <a th:href="@{/dashboard}">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">系统概览</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/user-management}">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">用户管理</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/instance-management}">
+                        <span class="nav-icon">🖥️</span>
+                        <span class="nav-text">实例管理</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/system-monitoring}">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">数据库监控</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/server-monitoring}">
+                        <span class="nav-icon">🔍</span>
+                        <span class="nav-text">服务器监控</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/warning-rules}">
+                        <span class="nav-icon">🚨</span>
+                        <span class="nav-text">预警规则管理</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/alert-history}">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-text">报警历史</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img th:src="@{/images/avatar.png}" alt="用户头像" class="user-avatar">
+                <div class="user-details">
+                    <span class="username" id="currentUsername">管理员</span>
+                    <span class="user-role">系统管理员</span>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">退出登录</button>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1 id="pageTitle">系统概览</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <span class="welcome-text">欢迎回来，<span id="headerUsername">管理员</span></span>
+                    <button class="btn btn-primary" id="refreshBtn">刷新</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 页面内容容器 -->
+        <div class="content-area" id="contentArea">
+            <!-- 系统概览页面内容 -->
+            <div class="welcome-section">
+                <div class="welcome-card">
+                    <h2>欢迎使用可视化数据库运维系统</h2>
+                    <p>实时监控和管理您的数据库实例，确保系统稳定运行</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🖥️</div>
+                        <div class="stat-info">
+                            <h3 id="instanceCount">0</h3>
+                            <p>数据库实例</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="onlineUsers">0</h3>
+                            <p>在线用户</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <h3 id="todayQueries">0</h3>
+                            <p>今日查询</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-info">
+                            <h3 id="alertsCount">0</h3>
+                            <p>告警信息</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">系统状态</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="systemStatus">
+                                    <p>正在加载系统状态...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">最近活动</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentActivities">
+                                    <p>正在加载活动记录...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/system-monitoring.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

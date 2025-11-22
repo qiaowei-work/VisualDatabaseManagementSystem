@@ -1,0 +1,470 @@
+/* Grafana嵌入样式 */
+.grafana-section {
+    margin-top: 20px;
+}
+
+.grafana-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.grafana-container {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.grafana-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #6c757d;
+}
+
+.placeholder-content {
+    padding: 40px;
+}
+
+.placeholder-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.placeholder-content h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.placeholder-content p {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.grafana-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+/* 全屏模式 */
+.grafana-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    border: none;
+    border-radius: 0;
+}
+
+/* 控制面板样式调整 */
+.control-panel .control-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 200px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .grafana-container {
+        height: 600px;
+    }
+    
+    .control-panel .control-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .control-group {
+        min-width: auto;
+    }
+    
+    .grafana-controls {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .grafana-container {
+        height: 400px;
+    }
+    
+    .placeholder-icon {
+        font-size: 36px;
+    }
+    
+    .placeholder-content h4 {
+        font-size: 16px;
+    }
+    
+    .placeholder-content p {
+        font-size: 12px;
+    }
+}
+
+/* 加载状态 */
+.grafana-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+.grafana-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #dc3545;
+    background: #f8f9fa;
+}
+
+.error-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.error-content h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #dc3545;
+}
+
+.error-content p {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* 实例状态指示器 */
+.instance-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.instance-status.online {
+    background-color: #28a745;
+}
+
+.instance-status.offline {
+    background-color: #dc3545;
+}
+
+.instance-status.unknown {
+    background-color: #6c757d;
+}
+
+/* 控制面板增强样式 */
+.control-panel {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.control-panel .form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.control-panel .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+.control-panel .btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.control-panel .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Grafana卡片样式增强 */
+.grafana-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.grafana-section .card-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+}
+
+.grafana-controls .btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.grafana-controls .btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+}
+
+/* 响应式设计优化 */
+@media (max-width: 1200px) {
+    .grafana-container {
+        height: 700px;
+    }
+}
+
+@media (max-width: 992px) {
+    .grafana-container {
+        height: 650px;
+    }
+    
+    .control-panel .control-row {
+        gap: 15px;
+    }
+    
+    .control-group {
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .grafana-container {
+        height: 500px;
+    }
+    
+    .control-panel .control-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .control-group {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .grafana-controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .grafana-section .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .grafana-controls {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    .grafana-container {
+        height: 400px;
+    }
+    
+    .placeholder-icon {
+        font-size: 32px;
+    }
+    
+    .placeholder-content h4 {
+        font-size: 16px;
+    }
+    
+    .placeholder-content p {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+    
+    .grafana-section .card-header {
+        padding: 12px 15px;
+    }
+    
+    .grafana-controls .btn {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .grafana-container {
+        height: 350px;
+    }
+    
+    .control-panel .card-body {
+        padding: 15px;
+    }
+    
+    .grafana-section .card-body {
+        padding: 0;
+    }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .grafana-container {
+        background: #1a1a1a;
+        border-color: #333;
+    }
+    
+    .grafana-placeholder {
+        color: #ccc;
+    }
+    
+    .placeholder-content h4 {
+        color: #fff;
+    }
+    
+    .control-panel {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        border-color: #4a5568;
+    }
+    
+    .control-panel .form-control {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #fff;
+    }
+    
+    .control-panel label {
+        color: #e2e8f0;
+    }
+}
+
+/* 动画效果 */
+.grafana-container {
+    transition: all 0.3s ease;
+}
+
+.grafana-iframe {
+    transition: opacity 0.3s ease;
+}
+
+.grafana-loading {
+    transition: opacity 0.3s ease;
+}
+
+/* 加载动画增强 */
+@keyframes spin {
+    0% { 
+        transform: rotate(0deg);
+        border-top-color: #007bff;
+    }
+    50% {
+        border-top-color: #0056b3;
+    }
+    100% { 
+        transform: rotate(360deg);
+        border-top-color: #007bff;
+    }
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* 按钮状态样式 */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn:active {
+    transform: translateY(0) !important;
+}
+
+/* 选择框样式增强 */
+.form-control option {
+    padding: 8px 12px;
+}
+
+.form-control optgroup {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+
+/* 工具提示样式 */
+.grafana-controls .btn[data-tooltip] {
+    position: relative;
+}
+
+.grafana-controls .btn[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+.grafana-controls .btn[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #333;
+    margin-bottom: 1px;
+}

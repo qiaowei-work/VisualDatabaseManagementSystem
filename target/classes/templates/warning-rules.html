@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预警规则管理 - 可视化运维系统</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- 复用主页面侧边栏 -->
+    <div th:replace="dashboard :: sidebar"></div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>预警规则管理</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <span class="welcome-text">欢迎回来，<span id="headerUsername">管理员</span></span>
+                    <button class="btn btn-primary" id="refreshBtn">刷新</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 页面内容 -->
+        <div class="content-area">
+            <div class="alert-management">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">预警规则管理</h3>
+                    </div>
+                    <div class="card-body" style="text-align: center; padding: 40px;">
+                        <p style="font-size: 18px; line-height: 1.8; margin-bottom: 30px;">基于Prometheus API 与 Alertmanager API的可视化模块开发中，统一管理全部DBA报警规则，目前已实现24小时钉钉预警监控</p>
+                        <div class="image-container" style="display: flex; justify-content: center;">
+                            <img th:src="@{/images/AA.jpg}" alt="预警监控示意图" style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <img th:src="@{/images/image.png}" alt="预警群测试" style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

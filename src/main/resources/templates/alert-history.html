@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报警历史 - 可视化运维系统</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- 复用主页面侧边栏 -->
+    <div th:replace="dashboard :: sidebar"></div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>报警历史</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <span class="welcome-text">欢迎回来，<span id="headerUsername">管理员</span></span>
+                    <button class="btn btn-primary" id="refreshBtn">刷新</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 页面内容 -->
+        <div class="content-area">
+            <div class="alert-history">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">报警历史记录</h3>
+                    </div>
+                    <div class="card-body" style="text-align: center; padding: 40px;">
+                        <p style="font-size: 18px; line-height: 1.8; margin-bottom: 30px;">模块开发中，持久化报警历史，用于故障溯源</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/alert-history.js}"></script>
+</body>
+</html>
