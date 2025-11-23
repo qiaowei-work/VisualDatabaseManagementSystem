@@ -7,10 +7,18 @@ class SystemMonitor {
     init() {
         this.bindEvents();
         this.loadInstances();
-        // 初始化时检查实例选择状态，控制模态框内容显示
+        // 初始化时检查实例选择状态，控制相关元素显示
         const databaseInstanceSelect = document.getElementById('databaseInstanceSelect');
         if (databaseInstanceSelect) {
+            // 使用updateControlState方法统一处理所有需要根据实例选择状态控制的元素
+            // 包括按钮、模态框内容和iframe显示
             this.updateControlState(databaseInstanceSelect.value);
+            
+            // 确保模态框初始状态正确
+            const modal = document.getElementById('addInstanceModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
     }
 
@@ -175,14 +183,43 @@ class SystemMonitor {
         // 控制添加实例模态框内容显示
         const modalContent = document.querySelector('#addInstanceModal .modal-content');
         if (modalContent) {
-            // 根据实例选择状态控制模态框内容的显示
-            // 如果没有选择实例，隐藏模态框内容
+            // 确保当没有选择数据库实例时，模态框内容不会显示
+            modalContent.style.display = instanceId ? 'block' : 'none';
+        }
+        
+        // 控制Grafana iframe显示
+        const grafanaIframe = document.getElementById('grafanaIframe');
+        if (grafanaIframe) {
             if (!instanceId) {
-                // 隐藏模态框内容，但保留模态框本身的结构
-                modalContent.style.display = 'none';
+                // 隐藏iframe
+                grafanaIframe.style.display = 'none';
+                
+                // 检查是否已经存在提示元素，如果不存在则创建
+                let placeholderElement = document.getElementById('noInstanceSelectedPlaceholder');
+                if (!placeholderElement) {
+                    // 创建提示占位元素
+                    placeholderElement = document.createElement('div');
+                    placeholderElement.id = 'noInstanceSelectedPlaceholder';
+                    placeholderElement.className = 'alert alert-info text-center';
+                    placeholderElement.style.padding = '40px';
+                    placeholderElement.style.margin = '0';
+                    placeholderElement.textContent = '请选择实例';
+                    
+                    // 将提示元素插入到iframe的位置
+                    grafanaIframe.parentNode.insertBefore(placeholderElement, grafanaIframe);
+                } else {
+                    // 显示已存在的提示元素
+                    placeholderElement.style.display = 'block';
+                }
             } else {
-                // 显示模态框内容
-                modalContent.style.display = 'block';
+                // 显示iframe
+                grafanaIframe.style.display = 'block';
+                
+                // 隐藏提示元素（如果存在）
+                const placeholderElement = document.getElementById('noInstanceSelectedPlaceholder');
+                if (placeholderElement) {
+                    placeholderElement.style.display = 'none';
+                }
             }
         }
     }
@@ -248,6 +285,32 @@ class SystemMonitor {
     showAddInstanceModal(mode = 'add', instanceId = null) {
         const modal = document.getElementById('addInstanceModal');
         const modalContent = document.querySelector('#addInstanceModal .modal-content');
+        
+        // 检查是否有选择实例（对于编辑和删除模式）
+        if ((mode === 'edit' || mode === 'delete') && !instanceId) {
+            // 如果没有提供instanceId，从下拉框获取
+            const databaseInstanceSelect = document.getElementById('databaseInstanceSelect');
+            instanceId = databaseInstanceSelect?.value;
+            
+            if (!instanceId) {
+                alert('请先选择一个数据库实例');
+                return;
+            }
+        }
+        
+        // 根据实例选择状态控制模态框内容的显示
+        const databaseInstanceSelect = document.getElementById('databaseInstanceSelect');
+        const currentInstanceId = databaseInstanceSelect?.value;
+        
+        if (modalContent) {
+            // 重要：如果没有选择实例，始终隐藏模态框内容
+            // 无论是什么模式，只要下拉框没有选择实例，模态框内容都不应该显示
+            if (!currentInstanceId) {
+                modalContent.style.display = 'none';
+            } else {
+                modalContent.style.display = 'block';
+            }
+        }
         const modalHeader = modal?.querySelector('.modal-header h3');
         
         // 检查是否有选择实例（编辑和删除模式需要）
