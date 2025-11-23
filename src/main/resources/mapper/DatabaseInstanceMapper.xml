@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.DatabaseInstanceMapper">
+    
+    <!-- 数据库表名 -->
+    <sql id="tableName">db_instance</sql>
+    
+    <!-- 基础字段 -->
+    <sql id="baseColumns">
+        id, name, host, port, username, password, `database`, environment, status, create_time, update_time
+    </sql>
+    
+    <!-- 查询所有实例 -->
+    <select id="selectAllInstances" resultType="org.example.entity.DatabaseInstance">
+        SELECT <include refid="baseColumns" />
+        FROM <include refid="tableName" />
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultType="org.example.entity.DatabaseInstance">
+        SELECT <include refid="baseColumns" />
+        FROM <include refid="tableName" />
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 插入实例 -->
+    <insert id="insert" parameterType="org.example.entity.DatabaseInstance" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO <include refid="tableName" />
+        (name, host, port, username, password, `database`, environment, status, create_time, update_time)
+        VALUES
+        (#{name}, #{host}, #{port}, #{username}, #{password}, #{database}, #{environment}, #{status}, NOW(), NOW())
+    </insert>
+    
+    <!-- 更新实例 -->
+    <update id="update" parameterType="org.example.entity.DatabaseInstance">
+        UPDATE <include refid="tableName" />
+        SET 
+            name = #{name},
+            host = #{host},
+            port = #{port},
+            username = #{username},
+            password = #{password},
+            `database` = #{database},
+            environment = #{environment},
+            status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+    
+    <!-- 删除实例 -->
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM <include refid="tableName" />
+        WHERE id = #{id}
+    </delete>
+    
+    <!-- 查询活跃状态的实例 -->
+    <select id="selectActiveInstances" resultType="org.example.entity.DatabaseInstance">
+        SELECT <include refid="baseColumns" />
+        FROM <include refid="tableName" />
+        WHERE status = 1
+        ORDER BY create_time DESC
+    </select>
+</mapper>

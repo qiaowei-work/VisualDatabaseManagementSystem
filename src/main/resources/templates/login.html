@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可视化运维系统 - 登录</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div class="login-container">
+    <div class="login-header">
+<!--        <img th:src="@{/images/logo.png}" alt="系统Logo" class="logo">-->
+        <h1>可视化运维系统</h1>
+        <p>Visual Database Management System</p>
+    </div>
+
+    <!-- 登录表单 -->
+    <div class="login-form" id="loginFormContainer">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                <span class="error-msg" id="usernameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                <span class="error-msg" id="passwordError"></span>
+            </div>
+
+            <div class="form-group remember-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">记住我</label>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text">登录</span>
+                <span class="btn-loading" style="display: none;">登录中...</span>
+            </button>
+
+            <script>
+                // 当登录按钮被点击时，在用户等待登录响应的同时开始预加载Grafana页面
+                document.getElementById('loginBtn').addEventListener('click', function() {
+                    // 只有在用户输入了用户名和密码后才开始预加载，避免不必要的资源消耗
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    if (username && password && window.preloadService) {
+                        console.log('开始预加载Grafana监控页面...');
+                        // 立即开始预加载，不等待Promise完成
+                        window.preloadService.startPreloading().catch(error => {
+                            console.log('预加载过程中有错误，但不影响登录流程:', error);
+                        });
+                    }
+                });
+                
+                // 页面加载完成后，如果用户已经开始输入，也可以提前开始轻量级预加载
+                document.getElementById('password').addEventListener('input', function() {
+                    // 只有当密码长度达到一定长度时才开始预加载
+                    if (this.value.length >= 4 && window.preloadService) {
+                        // 使用防抖，避免频繁触发
+                        if (!window._preloadTimeout) {
+                            window._preloadTimeout = setTimeout(() => {
+                                console.log('根据用户输入开始轻量级预加载...');
+                                window.preloadService.startPreloading().catch(() => {});
+                                window._preloadTimeout = null;
+                            }, 1000);
+                        }
+                    }
+                });
+            </script>
+
+            <div class="form-footer">
+                <a href="javascript:void(0)" id="showRegister">还没有账号？立即注册</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- 注册表单 -->
+    <div class="register-form" id="registerFormContainer" style="display: none;">
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="regUsername">用户名</label>
+                <input type="text" id="regUsername" name="username" placeholder="请输入用户名（3-20位）" required>
+                <span class="error-msg" id="regUsernameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">密码</label>
+                <input type="password" id="regPassword" name="password" placeholder="请输入密码（至少6位）" required>
+                <span class="error-msg" id="regPasswordError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="regConfirmPassword">确认密码</label>
+                <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+                <span class="error-msg" id="regConfirmPasswordError"></span>
+            </div>
+
+<!--            <div class="form-group">-->
+<!--                <label for="regEmail">邮箱</label>-->
+<!--                <input type="email" id="regEmail" name="email" placeholder="请输入邮箱地址" required>-->
+<!--                <span class="error-msg" id="regEmailError"></span>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="regRealName">真实姓名</label>-->
+<!--                <input type="text" id="regRealName" name="realName" placeholder="请输入真实姓名">-->
+<!--                <span class="error-msg" id="regRealNameError"></span>-->
+<!--            </div>-->
+
+            <button type="submit" class="register-btn" id="registerBtn">
+                <span class="btn-text">注册</span>
+                <span class="btn-loading" style="display: none;">注册中...</span>
+            </button>
+
+            <div class="form-footer">
+                <a href="javascript:void(0)" id="showLogin">已有账号？立即登录</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="login-footer">
+        <p>© 2025 可视化运维系统 | 技术支持：魏巧</p>
+    </div>
+</div>
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/preload-service.js}"></script>
+<script th:src="@{/js/login.js}"></script>
+</body>
+</html>

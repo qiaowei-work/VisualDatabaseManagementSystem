@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统监控 - 可视化运维系统</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+    <link rel="stylesheet" th:href="@{/css/monitoring.css}">
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- 复用主页面侧边栏 -->
+    <div th:replace="dashboard :: sidebar"></div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1>系统监控</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <span class="welcome-text">欢迎回来，<span id="headerUsername">管理员</span></span>
+                    <button class="btn btn-primary" id="refreshBtn">刷新</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 监控内容区域 -->
+        <div class="content-area">
+            <!-- 实例选择和监控控制 -->
+            <div class="card control-panel bg-white">
+                <div class="card-body">
+                    <div class="control-row">
+                        <div class="control-group">
+                            <label for="databaseInstanceSelect">数据库实例:</label>
+                            <select id="databaseInstanceSelect" class="form-control">
+                                <option value="">请选择数据库实例...</option>
+                                <option value="instance1">111.229.175.130:3306</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Grafana嵌入区域 -->
+            <div class="card grafana-section">
+                <div class="card-body grafana-container">
+                    <!-- Grafana iframe直接显示，不使用加载图标 -->
+                    <iframe id="grafanaIframe" class="grafana-iframe"
+                            title="Grafana仪表盘"
+                            frameborder="0"
+                            sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                            src="http://111.229.175.130:3000/d/MQWgroiiz/mysql-overview?orgId=1&kiosk&from=now-12h&to=now&var-host=localhost:9104&refresh=1m">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加实例模态框 -->
+<div id="addInstanceModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>添加数据库实例</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="instanceForm">
+                <div class="form-group">
+                    <label for="instanceName">实例名称</label>
+                    <input type="text" id="instanceName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="host">主机地址</label>
+                    <input type="text" id="host" class="form-control" placeholder="localhost" required>
+                </div>
+                <div class="form-group">
+                    <label for="port">端口</label>
+                    <input type="number" id="port" class="form-control" value="3306" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="database">数据库名</label>
+                    <input type="text" id="database" class="form-control" placeholder="可选">
+                </div>
+                <div class="form-group">
+                    <label for="environment">环境</label>
+                    <select id="environment" class="form-control">
+                        <option value="production">生产环境</option>
+                        <option value="testing">测试环境</option>
+                        <option value="development">开发环境</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="testInstanceBtn">测试连接</button>
+            <button type="button" class="btn btn-primary" id="saveInstanceBtn">保存</button>
+            <button type="button" class="btn btn-outline" id="cancelInstanceBtn">取消</button>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/utils.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+<script th:src="@{/js/system-monitoring.js}"></script>
+</body>
+</html>
