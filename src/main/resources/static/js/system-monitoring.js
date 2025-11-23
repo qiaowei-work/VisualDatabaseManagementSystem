@@ -194,23 +194,23 @@ class SystemMonitor {
                 // 隐藏iframe
                 grafanaIframe.style.display = 'none';
                 
-                // 检查是否已经存在提示元素，如果不存在则创建
-                let placeholderElement = document.getElementById('noInstanceSelectedPlaceholder');
-                if (!placeholderElement) {
-                    // 创建提示占位元素
-                    placeholderElement = document.createElement('div');
-                    placeholderElement.id = 'noInstanceSelectedPlaceholder';
-                    placeholderElement.className = 'alert alert-info text-center';
-                    placeholderElement.style.padding = '40px';
-                    placeholderElement.style.margin = '0';
-                    placeholderElement.textContent = '请选择实例';
+                // // 检查是否已经存在提示元素，如果不存在则创建
+                // let placeholderElement = document.getElementById('noInstanceSelectedPlaceholder');
+                // if (!placeholderElement) {
+                //     // 创建提示占位元素
+                //     placeholderElement = document.createElement('div');
+                //     placeholderElement.id = 'noInstanceSelectedPlaceholder';
+                //     placeholderElement.className = 'alert alert-info text-center';
+                //     placeholderElement.style.padding = '40px';
+                //     placeholderElement.style.margin = '0';
+                //     placeholderElement.textContent = '请选择实例';
                     
-                    // 将提示元素插入到iframe的位置
-                    grafanaIframe.parentNode.insertBefore(placeholderElement, grafanaIframe);
-                } else {
-                    // 显示已存在的提示元素
-                    placeholderElement.style.display = 'block';
-                }
+                //     // 将提示元素插入到iframe的位置
+                //     grafanaIframe.parentNode.insertBefore(placeholderElement, grafanaIframe);
+                // } else {
+                //     // 显示已存在的提示元素
+                //     placeholderElement.style.display = 'block';
+                // }
             } else {
                 // 显示iframe
                 grafanaIframe.style.display = 'block';
@@ -379,7 +379,7 @@ class SystemMonitor {
             const testConnectionBtn = document.getElementById('testConnectionBtn');
             if (testConnectionBtn) {
                 testConnectionBtn.disabled = true;
-                testConnectionBtn.innerHTML = '<div class="loading-spinner"></div> 测试中...';
+                testConnectionBtn.innerHTML = '测试中...';
             }
 
             // 调用后端API测试连接
@@ -892,7 +892,7 @@ class SystemMonitor {
             const testInstanceBtn = document.getElementById('testInstanceBtn');
             if (testInstanceBtn) {
                 testInstanceBtn.disabled = true;
-                testInstanceBtn.innerHTML = '<div class="loading-spinner"></div> 测试中...';
+                testInstanceBtn.innerHTML = '测试中...';
             }
 
             // 调用后端API测试新实例连接
@@ -937,7 +937,7 @@ class SystemMonitor {
             const saveInstanceBtn = document.getElementById('saveInstanceBtn');
             if (saveInstanceBtn) {
                 saveInstanceBtn.disabled = true;
-                saveInstanceBtn.innerHTML = '<div class="loading-spinner"></div> 保存中...';
+                saveInstanceBtn.innerHTML = '保存中...';
             }
 
             // 调用后端API保存实例
@@ -1061,21 +1061,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const instanceId = document.getElementById('databaseInstanceSelect')?.value;
             
             if (instanceId && dashboardId) {
-                // 显示加载状态
-                const grafanaLoading = document.getElementById('grafanaLoading');
+                // 准备iframe加载
                 const grafanaError = document.getElementById('grafanaError');
                 const grafanaIframe = document.getElementById('grafanaIframe');
                 
-                if (grafanaLoading && grafanaError && grafanaIframe) {
-                    grafanaLoading.style.display = 'flex';
+                if (grafanaError && grafanaIframe) {
                     grafanaError.classList.add('hidden');
                     grafanaIframe.src = '';
                     
                     // 模拟加载延迟
                     setTimeout(() => {
-                        grafanaLoading.style.display = 'none';
                         // 设置真实的Grafana URL
                         grafanaIframe.src = 'http://111.229.175.130:3000/d/MQWgroiiz/mysql-overview?orgId=1&kiosk&from=now-12h&to=now&var-host=localhost:9104&refresh=1m';
+                        grafanaIframe.style.display = 'block';
                     }, 1000);
                 }
             }

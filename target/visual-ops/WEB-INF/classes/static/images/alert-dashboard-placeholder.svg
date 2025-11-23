@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <!-- 背景 -->
+  <rect width="800" height="400" fill="#f5f7fa" rx="10" ry="10"/>
+  
+  <!-- 标题 -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#2c3e50">预警规则管理面板</text>
+  
+  <!-- 主要布局 -->
+  <rect x="50" y="80" width="700" height="300" fill="white" rx="8" ry="8" stroke="#e1e8ed" stroke-width="2"/>
+  
+  <!-- Prometheus和Alertmanager连接示意图 -->
+  <g transform="translate(150, 120)">
+    <!-- Prometheus图标 -->
+    <rect x="0" y="0" width="120" height="70" fill="#e6522c" rx="5" ry="5"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Prometheus</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">数据采集</text>
+    
+    <!-- 连接线 -->
+    <path d="M180,35 Q250,35 320,35" stroke="#95a5a6" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+    
+    <!-- Alertmanager图标 -->
+    <rect x="350" y="0" width="120" height="70" fill="#3498db" rx="5" ry="5"/>
+    <text x="410" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Alertmanager</text>
+    <text x="410" y="50" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">告警处理</text>
+    
+    <!-- 向下连接线 -->
+    <path d="M60,70 L60,110" stroke="#95a5a6" stroke-width="2" fill="none"/>
+    <path d="M410,70 L410,110" stroke="#95a5a6" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- 钉钉告警图标 -->
+  <g transform="translate(400, 180)">
+    <circle cx="0" cy="0" r="60" fill="#267dc0"/>
+    <text x="0" y="-15" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">钉钉</text>
+    <text x="0" y="15" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="white">24h监控</text>
+    <text x="0" y="40" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="white">实时告警</text>
+  </g>
+  
+  <!-- DBA规则管理区域 -->
+  <rect x="100" y="280" width="600" height="80" fill="#ecf0f1" rx="5" ry="5"/>
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#2c3e50">统一管理全部DBA报警规则</text>
+  <text x="400" y="345" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#7f8c8d">开发中...</text>
+  
+  <!-- 进度指示器 -->
+  <g transform="translate(300, 370)">
+    <rect x="0" y="0" width="200" height="10" fill="#bdc3c7" rx="5" ry="5"/>
+    <rect x="0" y="0" width="60" height="10" fill="#27ae60" rx="5" ry="5"/>
+    <text x="210" y="10" font-family="Arial, sans-serif" font-size="12" fill="#34495e">30%</text>
+  </g>
+  
+  <!-- 预警图标 -->
+  <g transform="translate(700, 100)">
+    <circle cx="0" cy="0" r="30" fill="#e74c3c" opacity="0.2"/>
+    <path d="M0,-25 L-15,20 L0,10 L15,20 Z" fill="#e74c3c"/>
+    <circle cx="0" cy="5" r="5" fill="#f1c40f"/>
+  </g>
+</svg>

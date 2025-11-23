@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.DatabaseMonitoringMapper">
+
+    <!-- 获取全局状态信息 -->
+    <select id="getGlobalStatus" resultType="map">
+        SHOW GLOBAL STATUS
+        WHERE variable_name
+        IN ( 'uptime' ,'connections','threads_running','threads_connected','slow_queries')
+    </select>
+
+    <!-- 获取慢查询列表 -->
+    <select id="getSlowQueries" parameterType="int" resultType="map">
+        SELECT 
+            id,
+            user,
+            host,
+            db,
+            command,
+            time,
+            state,
+            info as query
+        FROM information_schema.processlist 
+        WHERE command != 'Sleep' 
+        AND time > 1 
+        ORDER BY time DESC 
+        LIMIT #{limit}
+    </select>
+
+    <!-- 获取活跃查询列表 -->
+    <select id="getActiveQueries" resultType="map">
+        SELECT 
+            id,
+            user,
+            host,
+            db,
+            command,
+            time,
+            state,
+            info as query
+        FROM information_schema.processlist 
+        WHERE command != 'Sleep' 
+        ORDER BY time DESC
+    </select>
+
+    <!-- 获取表空间信息 -->
+    <select id="getTableSpaceInfo" resultType="map">
+        SELECT 
+            table_schema as tableSchema,
+            table_name as tableName,
+            table_rows as tableRows,
+            data_length as dataLength,
+            index_length as indexLength,
+            data_free as dataFree,
+            ROUND(((data_length + index_length) / 1024 / 1024), 2) as totalSizeMb
+        FROM information_schema.tables 
+        WHERE table_schema NOT IN ('mysql', 'information_schema', 'performance_schema', 'sys')
+        ORDER BY (data_length + index_length) DESC
+    </select>
+
+    <!-- 获取数据库运行时间 -->
+    <select id="getUptime" resultType="long">
+        SELECT CAST(variable_value AS UNSIGNED) 
+        FROM information_schema.global_status 
+        WHERE variable_name = 'Uptime'
+    </select>
+
+    <!-- 获取数据库连接数 -->
+    <select id="getConnectionCount" resultType="int">
+        SELECT COUNT(*) 
+        FROM information_schema.processlist
+    </select>
+
+    <!-- 获取慢查询数量 -->
+    <select id="getSlowQueryCount" resultType="int">
+        SELECT CAST(variable_value AS UNSIGNED) 
+        FROM information_schema.global_status 
+        WHERE variable_name = 'Slow_queries'
+    </select>
+
+    <!-- 获取活跃连接数 -->
+    <select id="getActiveConnections" resultType="int">
+        SELECT COUNT(*) 
+        FROM information_schema.processlist 
+        WHERE command != 'Sleep'
+    </select>
+
+    <!-- 获取QPS相关统计 -->
+    <select id="getQueriesStats" resultType="map">
+        SELECT 
+            MAX(CASE WHEN variable_name = 'Queries' THEN CAST(variable_value AS UNSIGNED) ELSE 0 END) as totalQueries,
+            MAX(CASE WHEN variable_name = 'Uptime' THEN CAST(variable_value AS UNSIGNED) ELSE 1 END) as uptime
+        FROM information_schema.global_status
+        WHERE variable_name IN ('Queries', 'Uptime')
+    </select>
+
+    <!-- 获取TPS相关统计 -->
+    <select id="getTransactionsStats" resultType="map">
+        SELECT 
+            MAX(CASE WHEN variable_name = 'Com_commit' THEN CAST(variable_value AS UNSIGNED) ELSE 0 END) as comCommit,
+            MAX(CASE WHEN variable_name = 'Com_rollback' THEN CAST(variable_value AS UNSIGNED) ELSE 0 END) as comRollback,
+            MAX(CASE WHEN variable_name = 'Uptime' THEN CAST(variable_value AS UNSIGNED) ELSE 1 END) as uptime
+        FROM information_schema.global_status
+        WHERE variable_name IN ('Com_commit', 'Com_rollback', 'Uptime')
+    </select>
+
+</mapper>

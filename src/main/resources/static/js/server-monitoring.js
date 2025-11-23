@@ -41,9 +41,6 @@ class ServerMonitoring {
         // 记录加载开始时间
         this.loadStartTime = performance.now();
         
-        // 显示加载状态指示器
-        this.showLoadingIndicator(true);
-        
         if (window.preloadService) {
             // 检查Grafana服务器仪表盘是否已预加载
             const isDashboardPreloaded = window.preloadService.isResourceCached(this.cachedResourceName);
@@ -98,57 +95,6 @@ class ServerMonitoring {
         } else {
             console.log('⚠️ 预加载服务不可用');
         }
-    }
-    
-    /**
-     * 显示加载状态指示器
-     */
-    showLoadingIndicator(show) {
-        // const container = document.getElementById('grafanaContainer');
-        // if (!container) return;
-        //
-        // if (show) {
-        //     // 创建加载指示器
-        //     let loader = document.getElementById('loadingIndicator');
-        //     if (!loader) {
-        //         loader = document.createElement('div');
-        //         loader.id = 'loadingIndicator';
-        //         loader.className = 'loading-indicator';
-        //         loader.style.cssText = `
-        //             position: absolute;
-        //             top: 50%;
-        //             left: 50%;
-        //             transform: translate(-50%, -50%);
-        //             background: rgba(255, 255, 255, 0.9);
-        //             padding: 20px;
-        //             border-radius: 8px;
-        //             z-index: 1000;
-        //             display: flex;
-        //             flex-direction: column;
-        //             align-items: center;
-        //             gap: 10px;
-        //             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        //         `;
-        //         loader.innerHTML = `
-        //             <div style="width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        //             <div id="loadingMessage">正在加载Grafana仪表盘...</div>
-        //             <style>
-        //                 @keyframes spin {
-        //                     0% { transform: rotate(0deg); }
-        //                     100% { transform: rotate(360deg); }
-        //                 }
-        //             </style>
-        //         `;
-        //         container.style.position = 'relative';
-        //         container.appendChild(loader);
-        //     }
-        //     loader.style.display = 'flex';
-        // } else {
-            // const loader = document.getElementById('loadingIndicator');
-            // if (loader) {
-            //     loader.style.display = 'none';
-            // }
-        // }
     }
     
     /**
@@ -216,9 +162,6 @@ class ServerMonitoring {
         
         // 显示加载时间通知
         this.showCacheNotification(`${loadType}完成! 耗时: ${loadTime.toFixed(2)}ms`, 'success');
-        
-        // 隐藏加载指示器
-        this.showLoadingIndicator(false);
         
         // 记录到性能分析日志
         this.logPerformanceData(loadType, loadTime);
@@ -383,9 +326,6 @@ class ServerMonitoring {
      */
     refreshDashboard() {
         if (!this.grafanaIframe) return;
-        
-        // 显示加载指示器
-        this.showLoadingIndicator(true);
         
         // 重置加载状态
         this.loadStartTime = performance.now();
